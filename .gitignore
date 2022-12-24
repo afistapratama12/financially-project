@@ -44,3 +44,5 @@ next-env.d.ts
 example.env*.local
 
 secret.txt
+
+module/database

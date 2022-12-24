@@ -35,3 +35,18 @@ export type FeatureOption = "saving_rate" | "financial_statement" | "personal_fi
 export type UsingFeatureRequest = {
     feature: FeatureOption 
 }
+
+export type VisitorCheckRequest = {
+    id: string;
+}
+
+export type VisitorNewRequest = {
+    fullname: string;
+    address: string;
+}
+
+export type VisitorResponse = {
+    id: string;
+    fullname: string;
+    address: string;
+}

@@ -6,5 +6,5 @@ CREATE TABLE IF NOT EXISTS feedbacks (
     rating_score int not null,
     created_at timestamp not null,
     created_by varchar(150),
-    foreign key (fk_user_id) references users(id)
+    CONSTRAINT fk_user_id foreign key (user_id) references users(id)
 );

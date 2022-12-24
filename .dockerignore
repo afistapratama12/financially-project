@@ -8,3 +8,5 @@ README.md
 example.env.local
 next-env.d.ts
 secret.txt
+
+module/database

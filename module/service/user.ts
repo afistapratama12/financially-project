@@ -4,7 +4,7 @@ import { generateToken } from "../internal/helper/jwt";
 import { LoginRequest, RegisterRequest } from "../model/api";
 import { getUserRow } from "../model/user";
 import { Query } from "ts-postgres";
-import { randomUUID } from "crypto";
+import { uuid } from "uuidv4";
 
 export const Login = async (reqData: LoginRequest) => {
     try {
@@ -52,7 +52,7 @@ export const Register = async (reqData: RegisterRequest) => {
         const queryInsert = new Query(
             `INSERT INTO users (id, full_name, email, password, address, role, free_usage_finance_statement, free_usage_personal_finance, free_usage_saving_rate, created_at, created_by, updated_at, updated_by, deleted_at, is_deleted)
             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15) RETURNING id`,
-            [randomUUID().replace("-", ""), reqData.fullname, reqData.email, hashPassword(reqData.password), reqData.address, "user", 2, 2, 10, new Date(), null, null, null, null, false]
+            [uuid().replaceAll("-", ""), reqData.fullname, reqData.email, hashPassword(reqData.password), reqData.address, "user", 2, 2, 10, new Date(), null, null, null, null, false]
         )
 
         const result = await client.execute(queryInsert)
@@ -62,7 +62,7 @@ export const Register = async (reqData: RegisterRequest) => {
                 role: "user",
             })
         } else {
-            throw new Error("Failed insert to database")
+            throw new Error("Error insert database to table users")
         }
     } catch (error) {
         return error

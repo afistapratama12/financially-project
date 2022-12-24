@@ -3,10 +3,10 @@ import { ProfitLossObject, ProfitLossDetail } from './profitLoss';
 import { BalanceSheetObject, BalanceSheetDetail } from './balanceSheet';
 import { StatementChangeEquityObject, StatementChangeEquityDetail } from './statementChangeEquity';
 
-export { 
+export type {
     BusinessType,
     FinancialStatementObject,
-    UserFinancialStatementObject, 
+    UserFinancialStatementObject,
     FinancialStatementDetail,
     ProfitLossObject,
     ProfitLossDetail,
@@ -14,4 +14,4 @@ export {
     BalanceSheetDetail,
     StatementChangeEquityObject,
     StatementChangeEquityDetail
-};
+}

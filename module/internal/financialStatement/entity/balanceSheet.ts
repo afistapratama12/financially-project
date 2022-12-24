@@ -38,8 +38,8 @@ export type BalanceSheetObject = {
 
     Equity: {
         NetWorth?: number;
-        PaidInCapital: number;
-        RetainedEarnings: number;
+        PaidInCapital?: number;
+        RetainedEarnings?: number;
         OtherEquity: BalanceSheetDetail[] | number;
         TotalEquity: number;
     },

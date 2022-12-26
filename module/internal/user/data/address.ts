@@ -1,7 +1,7 @@
 import { AddressObject } from "../entity"
 
 // schema
-// {province: {regency: "p_id-r_id"}}
+// {province: {regency: "provID-regencyID"}}
 const AddressList: AddressObject = {
     "Aceh": {
         "Aceh Barat": "1-1",
@@ -608,4 +608,12 @@ export function GetAddressList(): string[] {
     }
 
     return addressList
+}
+
+export function GetRegencyCode(address: string): string {
+    const addressSplit = address.split(', ')
+    const regency = addressSplit[0]
+    const province = addressSplit[1]
+
+    return AddressList[province][regency]
 }

@@ -1,6 +1,6 @@
 export type SavingRateObject = {
     savingRate? : number;
-    income: number;
+    income: number | SavingRateDetail[];
     otherIncome: number;
     saving: number;
     investment: SavingRateDetail[] | number;

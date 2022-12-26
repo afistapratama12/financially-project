@@ -1,73 +1,95 @@
 import { VisitorResponse } from "@/module/model/api";
-import { localID, setLocalVisitor } from "@/src/localStorage";
-import { FormLabel, Input, Modal, ModalBody, ModalContent, ModalHeader, ModalOverlay, useDisclosure } from "@chakra-ui/react";
+import { useAppContext } from "@/src/context/AppContext";
+import { setLocalVisitor } from "@/src/localStorage";
+import { ModalProps } from "@/src/props";
+import { Button, FormLabel, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure } from "@chakra-ui/react";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { useState } from "react";
 
-export const VisitorModal = ({ children }: any) => {
+export const VisitorModal = ({ isOpen, onOpen, onClose }: ModalProps) => {
     // digunakan untuk menampilkan visitor modal
-    const visitorId = localStorage.getItem(localID);
-    const { isOpen, onOpen, onClose } = useDisclosure();
+    // const visitorId = localStorage.getItem(localID);
+    const state = useAppContext()
+    const router = useRouter()
 
-    const checkVisitor = async () => {
-        try {
-            if (visitorId) {
-                const response = await axios<VisitorResponse>({ method: "GET", url: `/api/visitors`, data: {id : visitorId} });
-    
-                if (response.data) {
-                    // jika visitor id sudah ada di local storage
-                    // maka tampilkan children
-                    setLocalVisitor(response.data.id, response.data.fullname, response.data.address);
-                } else {
-                    // jika visitor id tidak ada di dalam database
-                    // maka tampilkan visitor modal
-                    onOpen();
-                }
-            } else {
-                // jika visitor id tidak ada di local storage
-                // maka tampilkan visitor modal
-                onOpen();
-            }
-        } catch (err) {
-            console.log(err);
-            onOpen()
-        }
-    }
+    const [visitorData, setVisitorData] = useState({
+        fullname: "",
+        address: "",
+    })
+
+    const [error, setError] = useState<string | null>(null);
+    const [loading, setLoading] = useState<boolean>(false);
 
     const processVisitor = async(fullname: string, address: string) => {
+        setLoading(true);
+        
+        if(!fullname || !address) {
+            setError("Mohon isi semua data terlebih dahulu");
+            return;
+        }
+        
         try {
-            const response = await axios<VisitorResponse>({ method: "POST", url: `/api/visitors`, data: {fullname, address} });
+            const response = await axios<VisitorResponse>({ method: "POST", url: `/api/v1/visitors`, data: {fullname, address} });
 
             if (response.status === 201) {
-                // jika visitor berhasil dibuat
-                // maka tampilkan children
-                setLocalVisitor(response.data.id, response.data.fullname, response.data.address);
+                setLocalVisitor({
+                    id: response.data.id,
+                    fullname: response.data.fullname,
+                    address: response.data.address
+                });
+                state.setVisitorStatus(true);
                 onClose();
             }
 
-            setLocalVisitor(response.data.id, response.data.fullname, response.data.address);
+            console.log("resp status:", response.status)
+            console.log("resp data:", response.data)
         } catch (err) {
             console.log(err);
+        } finally {
+            setLoading(false);
         }
     }
 
-    useEffect(() => {
-        checkVisitor()
-    }, [])
-
     return (
-        <Modal isOpen={isOpen} onClose={onClose}>
-            <ModalOverlay/>
+        <Modal
+            isCentered
+            motionPreset="slideInBottom" 
+            isOpen={isOpen}
+            onClose={onClose}
+        >
+            <ModalOverlay
+                backdropBlur="md"
+            />
             <ModalContent>
-                <ModalHeader>Mohon isi data terlebih dahulu</ModalHeader>
+                <ModalHeader>Sepertinya kamu pendatang baru, mohon isi data diri terlebih dahulu sebelum melanjutnya</ModalHeader>
 
                 <ModalBody>
                     <FormLabel>Nama Lengkap</FormLabel>
-                    <Input/>
-
+                    <Input 
+                        placeholder="eg. Pratama Jaya"
+                        value={visitorData.fullname}
+                        onChange={e => setVisitorData({...visitorData, fullname: e.target.value})}    
+                    />
                     <FormLabel>Alamat</FormLabel>
-                    <Input/>
+                    <Input 
+                        placeholder="..." 
+                        value={visitorData.address} 
+                        onChange={e => setVisitorData({...visitorData, address: e.target.value})} 
+                    />
                 </ModalBody>
+                <ModalFooter>
+                    <Button
+                        onClick={() => router.back()}
+                    >
+                        Kembali
+                    </Button>
+                    <Button
+                        onClick={() => processVisitor(visitorData.fullname, visitorData.address)}
+                    >
+                        Simpan
+                    </Button>
+                </ModalFooter>
             </ModalContent>
         </Modal>
     )

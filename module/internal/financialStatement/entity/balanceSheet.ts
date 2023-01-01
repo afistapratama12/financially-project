@@ -1,48 +1,94 @@
 // TODO: perlu direvisi lagi structnya
 export type BalanceSheetObject = {
-    Assets: {
-        CurrentAssets: {
-            Cash: number;
-            Bank: number;
-            Receivables: number;
-            Inventory?: number;
-            OtherCurrentAssets: BalanceSheetDetail[] | number;
-        }
-
-        FixedAssets: {
-            PropertyPlantEquipment: BalanceSheetDetail[] | number;
-            AccumulatedDepreciation: BalanceSheetDetail[] | number;
-            OtherFixedAssets: BalanceSheetDetail[] | number;
+    aseets: {
+        currentAssets: {
+            cash: number;
+            bank: number;
+            receivables: number;
+            inventory?: number;
+            cashEquivalent: number;
         },
+        totalcurrentAssets: number;
 
-        OtherAssets: BalanceSheetDetail[] | number;
-        TotalAssets: number;
+        fixedAssets: {
+            building: number;
+            machiney: number;
+            vehicle: number;
+            land: number;
+            investment: number;
+            otherFixedAsset: number;
+        },
+        totalFixedAssets: number;
+        totalAssets: number;
     },
 
-    Liabilities: {
-        CurrentLiabilities: {
-            AccountsPayable: number;
-            AccruedLiabilities: number;
-            OtherCurrentLiabilities: BalanceSheetDetail[] | number;
+    liabilities: {
+        currentLiabilities: {
+            debt: number;
         },
+        totalCurrentLiabilities: number;
 
-        LongTermLiabilities: {
-            Loan: BalanceSheetDetail[] | number;
-            OtherLongTermLiabilities: BalanceSheetDetail[] | number;
+        longTermLiabilities: {
+            loan: number;
+            otherLiabilities: number;
         },
-
-        OtherLiabilities: BalanceSheetDetail[] | number;
-        
-        TotalLiabilities: number;
+        totalLongTermLiabilities: number;
+        totalLiabilities: number;
     },
 
     Equity: {
-        NetWorth?: number;
-        PaidInCapital?: number;
+        NetWorth: number;
         RetainedEarnings?: number;
-        OtherEquity: BalanceSheetDetail[] | number;
+        OtherEquity: number;
         TotalEquity: number;
     },
+
+    TotalLiabilitiesAndEquity: number;
+}
+
+export type UserBalanceSheetObject = {
+    aseets: {
+        currentAssets: {
+            cash: number;
+            bank: number;
+            receivables: number;
+            cashEquivalent: number;
+        },
+        totalcurrentAssets: number;
+
+        fixedAssets: {
+            building: number;
+            machiney: number;
+            vehicle: number;
+            land: number;
+            investment: number;
+            otherFixedAsset: number;
+        },
+        totalFixedAssets: number;
+        totalAssets: number;
+    },
+
+    liabilities: {
+        currentLiabilities: {
+            debt: number;
+        },
+        totalCurrentLiabilities: number;
+
+        longTermLiabilities: {
+            loan: number;
+            otherLiabilities: number;
+        },
+        totalLongTermLiabilities: number;
+        totalLiabilities: number;
+    },
+
+    equity: {
+        netWorth: number;
+        otherEquity: number;
+        totalEquity: number;
+    },
+
+    totalLiabilitiesAndEquity: number
 }
 
 export type BalanceSheetDetail = {

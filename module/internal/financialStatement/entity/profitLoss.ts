@@ -9,17 +9,21 @@ export type ProfitLossObject = {
         OtherCostOfGoodsSold?: ProfitLossDetail[] | number;
     },
 
-    GrossProfit: number;
+    GrossProfit: number; // Pendapatan Kotor
+
     Expenses: {
-        OperatingExpenses: number;
+        OperatingExpenses: {
+            salaries: ProfitLossDetail[] | number;
+            utilities: ProfitLossDetail[] | number;
+            rent: ProfitLossDetail[] | number;
+        };
         OtherOperatingExpenses: ProfitLossDetail[] | number;
-        NonOperatingExpenses: number;
-        OtherNonOperatingExpenses: ProfitLossDetail[] | number;
     },
 
-    ProfitBeforeTax: number;
-    IncomeTax: number;
-    NetProfit: number;
+    ProfitBeforeTax: number; // Laba Sebelum Pajak
+    IncomeTax: number; // Pajak Penghasilan, perhitungan berdasarkan pajak penghasilan
+    
+    NetProfit: number; // Laba Bersih
 }
 
 export type ProfitLossDetail = {

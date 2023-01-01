@@ -1,3 +1,4 @@
+//TODO: onhold project
 export type StatementChangeEquityObject = {
 
 }

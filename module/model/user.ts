@@ -18,6 +18,10 @@ export type User = {
     isDeleted: boolean | null;
 }
 
+// interface type { }
+// optional : ? ("" | undefined)
+// ("" | null)
+
 export function getUserRow(row: Value[]): User {
     if (row.length !== 14) {
         throw new Error(`Invalid row length: ${row.length}`);

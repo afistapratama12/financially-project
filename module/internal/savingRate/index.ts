@@ -6,14 +6,22 @@ import { SavingRateObject } from './entity';
 // jika sisa uang ternyata lebih kecil dari (income - pengeluaran), maka sisa uang ditambahkan dengan (income - pengeluaran - sisa uang)
 // saving rate = sisa uang / income
 export function CalculationSavingRate(savingRateData: SavingRateObject) {
-    let totalIncome = savingRateData.income + savingRateData.otherIncome;
-    
-    let totalSaving: number =  savingRateData.saving
+    let totalIncome = savingRateData.income
+    const savingRateOtherIncome = savingRateData.otherIncome || 0
 
-    if (typeof savingRateData.investment === 'number') {
-        totalSaving += savingRateData.investment;
+    if (typeof savingRateOtherIncome === 'number') {
+        totalIncome += savingRateOtherIncome;
     } else {
-        totalSaving += savingRateData.investment.reduce((acc, curr) => acc + curr.amount, 0);
+        totalIncome += savingRateOtherIncome.reduce((acc, curr) => acc + curr.amount, 0);
+    }
+    
+    let totalSaving: number = savingRateData.saving
+    const savingRateInvetment = savingRateData.investment || 0
+
+    if (typeof savingRateInvetment === 'number') {
+        totalSaving += savingRateInvetment;
+    } else {
+        totalSaving += savingRateInvetment.reduce((acc, curr) => acc + curr.amount, 0);
     }
 
     let totalExpenditure:number

@@ -1,7 +1,7 @@
 export type SavingRateObject = {
     savingRate? : number;
-    income: number | SavingRateDetail[];
-    otherIncome: number;
+    income: number;
+    otherIncome:SavingRateDetail[] | number;
     saving: number;
     investment: SavingRateDetail[] | number;
     installments: SavingRateDetail[] | number; // cicilan

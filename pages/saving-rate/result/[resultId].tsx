@@ -4,10 +4,19 @@ import { isEmpties, isEmpty } from "@/module/internal/helper/empty";
 import { CalculationSavingRate } from "@/module/internal/savingRate";
 import { useAppContext } from "@/src/context/AppContext";
 import { findSavingRateHistory } from "@/src/helper/localStorage";
-import { LocalSavingRateHistoryProps, ResultPageProps } from "@/src/props";
-import { local } from "@/src/props/const";
-import { Box, CircularProgress, CircularProgressLabel, Heading, Text } from "@chakra-ui/react";
-import {  GetServerSidePropsContext } from "next";
+import { 
+    LocalSavingRateHistoryProps, 
+    ResultPageProps 
+} from "@/src/props";
+import { local, source } from "@/src/props/const";
+import { 
+    Box, 
+    CircularProgress, 
+    CircularProgressLabel, 
+    Heading, 
+    Text 
+} from "@chakra-ui/react";
+import { GetServerSidePropsContext } from "next";
 import { useEffect, useState } from "react";
 
 export const getServerSideProps = async ({ 
@@ -50,7 +59,7 @@ export default function savingRateResult({
 
             // update localSavingRateHistory in localStorage
             if (isEmpty(savingRateHistoryData)) return localStorage.setItem(local.SAVING_RATE_HISTORY, JSON.stringify([savingRateProcess]))
-            if (savingRateHistoryData.length >= 10) {
+            if (savingRateHistoryData.length >= source.MAX_LOCAL_STORAGE) {
                 savingRateHistoryData.shift()
                 savingRateHistoryData.push(savingRateProcess)
                 return localStorage.setItem(local.SAVING_RATE_HISTORY, JSON.stringify(savingRateHistoryData))

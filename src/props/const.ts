@@ -24,6 +24,10 @@ export const local = {
     FINANCIAL_STATEMENT_HISTORY: "_fs_history",
 }
 
+export const source = {
+    MAX_LOCAL_STORAGE: 6,
+}
+
 export const featureType = {
     SAVING_RATE: "saving-rate" as FeatureTypeEnum,
     FINANCIAL_STATEMENT: "financial-statement" as FeatureTypeEnum,
